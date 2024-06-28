@@ -12,7 +12,8 @@
   "dependencies": {
     "ajv": "^8.14.0",
     "vscode-languageserver": "^9.0.1",
-    "vscode-languageserver-textdocument": "^1.0.11"
+    "vscode-languageserver-textdocument": "^1.0.11",
+    "jsonc-parser": "^0.4.2"
   },
   "keywords": [
     "vscode",
@@ -27,7 +28,16 @@
   },
   "homepage": "https://github.com/blockydevs/vscode-motoko#readme",
   "activationEvents": [
-    "onLanguage:plaintext"
+    "onLanguage:plaintext",
+    "onCommand:jsonTree.refreshEntry",
+    "onCommand:jsonTree.deployCanister",
+    "onCommand:jsonTree.startReplica",
+    "onCommand:jsonTree.deployCanisters",
+    "onCommand:jsonTree.openJson",
+    "onCommand:jsonTree.showCanisterGroupActions",
+    "onCommand:jsonTree.showCanisterActions",
+    "onCommand:jsonTree.showOptions",
+    "onCommand:jsonTree.configureDfxPath"
   ],
   "main": "./client/out/extension",
   "contributes": {
@@ -53,6 +63,82 @@
           "description": "Traces the communication between VS Code and the language server."
         }
       }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "jsonTreeContainer",
+          "title": "Motoko",
+          "icon": "client/src/media/dep.svg"
+        }
+      ]
+    },
+    "views": {
+      "jsonTreeContainer": [
+        {
+          "id": "jsonTree",
+          "name": "Motoko"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "jsonTree.refreshEntry",
+        "title": "Refresh"
+      },
+      {
+        "command": "jsonTree.deployCanister",
+        "title": "Deploy Canister"
+      },
+      {
+        "command": "jsonTree.startReplica",
+        "title": "Start Replica"
+      },
+      {
+        "command": "jsonTree.deployCanisters",
+        "title": "Deploy Canisters"
+      },
+      {
+        "command": "jsonTree.openJson",
+        "title": "Open JSON"
+      },
+      {
+        "command": "jsonTree.showCanisterGroupActions",
+        "title": "Show Actions"
+      },
+      {
+        "command": "jsonTree.showCanisterActions",
+        "title": "Show Canister Actions"
+      },
+      {
+        "command": "jsonTree.showOptions",
+        "title": "options"
+      },
+      {
+        "command": "jsonTree.configureDfxPath",
+        "title": "Configure WSL DFX Path"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "jsonTree.showOptions",
+          "when": "view == jsonTree",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "jsonTree.showCanisterGroupActions",
+          "when": "viewItem == canisterGroup",
+          "group": "inline"
+        },
+        {
+          "command": "jsonTree.showCanisterActions",
+          "when": "viewItem == canister",
+          "group": "inline"
+        }
+      ]
     }
   },
   "scripts": {
@@ -70,6 +156,7 @@
     "@typescript-eslint/parser": "^7.1.0",
     "eslint": "^8.57.0",
     "mocha": "^10.3.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "@types/vscode": "^1.73.0"
   }
 }
